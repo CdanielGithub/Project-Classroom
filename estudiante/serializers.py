@@ -8,7 +8,6 @@ class EntregaSerializer(serializers.ModelSerializer):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-       
         request = self.context.get('request', None)
         if request and not request.user.is_staff: 
             self.fields.pop('calificacion', None)
