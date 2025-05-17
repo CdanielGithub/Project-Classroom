@@ -6,6 +6,14 @@ class EntregaSerializer(serializers.ModelSerializer):
         model = Entrega
         fields = '__all__'
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Verifica si hay contexto con request
+        request = self.context.get('request', None)
+        if request and not request.user.is_staff:  # Si NO es admin
+            self.fields.pop('calificacion', None)
+            self.fields.pop('retroalimentacion', None)
+
 class TareaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tarea
