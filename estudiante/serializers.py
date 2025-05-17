@@ -8,9 +8,9 @@ class EntregaSerializer(serializers.ModelSerializer):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Verifica si hay contexto con request
+       
         request = self.context.get('request', None)
-        if request and not request.user.is_staff:  # Si NO es admin
+        if request and not request.user.is_staff: 
             self.fields.pop('calificacion', None)
             self.fields.pop('retroalimentacion', None)
 
