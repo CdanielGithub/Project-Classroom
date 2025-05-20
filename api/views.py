@@ -7,8 +7,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
-from .forms import CalificarEntregaForm, CursoForm, TareaForm
-from .models import Curso, Entrega, Tarea
+from classroom.forms import CalificarEntregaForm, CursoForm, TareaForm
+from classroom.models import Curso, Entrega, Tarea
 
 # Create your views here.
 
@@ -59,6 +59,7 @@ def registrar_usuario(request):
     rol = data.get("rol")
     user = User.objects.create_user(username=username, password=password, email=email)
     user.is_staff = rol == "profesor"
+    user.rol = rol
     user.save()
     refresh = RefreshToken.for_user(user)
     return JsonResponse(
