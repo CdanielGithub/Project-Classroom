@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Django
 *.pyc
 __pycache__/
@@ -15,3 +16,6 @@ ENV/
 # Archivos de migración
 # */migrations/*.py
 # */migrations/*.pyc
+=======
+db.sqlite3
+>>>>>>> d8fb1a31ddcee90a08241dca2287e4d37c9d5d4a

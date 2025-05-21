@@ -40,19 +40,16 @@ class EntragaEditarEliminar(generics.RetrieveUpdateDestroyAPIView):
 
 class TareasPendientesView(APIView):
     permission_classes = [IsAuthenticated]
-    
+    #permission_classes =[]
 
     def get(self, request):
         user = request.user
-
-        cursos = Curso.objects.filter(estudiantes=user)
-
+        #user = user.objects.first()
+        #cursos = Curso.objects.filter(estudiantes=user)
+        cursos = Curso.objects.filter(estudiante = self.request.user)
         tareas = Tarea.objects.filter(curso__in=cursos)
-
         entregadas = Entrega.objects.filter(estudiante=user).values_list('tarea_id', flat=True)
-
         pendientes = tareas.exclude(id__in=entregadas).filter(fecha_entrega__gte=now())
-
         tareas_data = [
             {
                 "id": tarea.id,
@@ -65,3 +62,10 @@ class TareasPendientesView(APIView):
         ]
 
         return Response(tareas_data)
+
+class CursosInscritosView(generics.ListAPIView):
+    serializer_class = CursoSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Curso.objects.filter(estudiantes=self.request.user)
