@@ -45,8 +45,7 @@ class TareasPendientesView(APIView):
     def get(self, request):
         user = request.user
         #user = user.objects.first()
-        #cursos = Curso.objects.filter(estudiantes=user)
-        cursos = Curso.objects.filter(estudiante = self.request.user)
+        cursos = Curso.objects.filter(estudiantes=user)
         tareas = Tarea.objects.filter(curso__in=cursos)
         entregadas = Entrega.objects.filter(estudiante=user).values_list('tarea_id', flat=True)
         pendientes = tareas.exclude(id__in=entregadas).filter(fecha_entrega__gte=now())
